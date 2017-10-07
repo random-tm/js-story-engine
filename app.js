@@ -13,6 +13,8 @@ engine.constants = {
 
 document.addEventListener("DOMContentLoaded", function(event) {
     init(); //Define init() in your loader script outside of the engine
+    core.dom.injectPage("app", './pages/0.html');
+    core.dom.processVisible();
 });
 
 
