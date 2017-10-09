@@ -6,10 +6,17 @@ core.dom.setElementTextById = function(id, text){
 }
 
 //Based loosely off of: https://stackoverflow.com/questions/17636528/how-do-i-load-an-html-page-in-a-div-using-javascript
-core.dom.injectPage = function(id, url){
+core.dom.injectPage = function(id, url, callback){
   var ele = document.getElementById(id);
-  var dataString = '<object type="text/html" style="width:100%; height:100%" data="' + url + '" ></object>';
-  ele.innerHTML= dataString;
+  request = new XMLHttpRequest();
+  request.open("GET", url);
+  request.send(null);
+  request.onreadystatechange = function(){
+    if(request.readyState == 4){
+      ele.innerHTML = request.responseText;
+      callback();
+    }
+  }
 }
 
 core.dom.processVisible = function(){
@@ -19,7 +26,6 @@ core.dom.processVisible = function(){
     var ele = allElements[i];
     var visAttr = ele.getAttribute("visible");
     if(visAttr){
-      console.log(visAttr);
       if(!eval(visAttr)){
         ele.style.display = "none";
       }
