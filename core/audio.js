@@ -1,17 +1,26 @@
 core.music = {};
 
-core.music.playSound = function(filename){
-  var url = './sounds/' + filename;
-  gameState.sound = new Audio(url);
-  gameState.sound.play();
+class CoreMusic {
+  constructor() {
+
+  }
+
+  playSound = (filename) => {
+    const url = './sounds/' + filename;
+    gameState.sound = new Audio(url);
+    gameState.sound.play();
+  }
+
+  playMusic = (filename) => {
+    const url = './music/' + filename;
+    gameState.music = new Audio(url);
+    gameState.music.play();
+    gameState.music.addEventListener('ended', () => {
+      this.currentTime = 0;
+      this.play();
+    }, false);
+  }
+
 }
 
-core.music.playMusic = function(filename){
-  var url = './music/' + filename;
-  gameState.music = new Audio(url);
-  gameState.music.play();
-  gameState.music.addEventListener('ended', function() {
-    this.currentTime = 0;
-    this.play();
-  }, false);
-}
+core.music = new CoreMusic();
